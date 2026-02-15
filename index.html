@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hamster 💘 Sqooshy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<style>
+:root{
+  --pink1:#ffb6c1;
+  --pink2:#ffd1dc;
+  --hot:#ff4d6d;
+}
+
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  min-height:100vh;
+  padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+  background:linear-gradient(135deg,var(--pink1),var(--pink2));
+  font-family:-apple-system,BlinkMacSystemFont,"Comic Sans MS",cursive;
+  text-align:center;
+  overflow-x:hidden;
+  color:#b30059;
+}
+
+.container{max-width:420px;margin:auto;}
+
+h1{
+  margin:16px 0;
+  animation:pop 1.5s infinite alternate;
+}
+
+@keyframes pop{
+  from{transform:scale(1);}
+  to{transform:scale(1.05);}
+}
+
+.card{
+  background:rgba(255,255,255,.85);
+  padding:20px;
+  border-radius:24px;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+p{font-size:1.05em;line-height:1.6;}
+
+.buttons{
+  position:relative;
+  height:170px;
+  margin-top:20px;
+}
+
+button{
+  font-size:1.1em;
+  padding:16px 32px;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+
+button:active{transform:scale(.92);}
+
+#yes{
+  background:var(--hot);
+  color:white;
+  box-shadow:0 8px 20px rgba(255,77,109,.5);
+}
+
+#yes.wiggle{
+  animation:yesWiggle .6s infinite;
+}
+
+@keyframes yesWiggle{
+  0%,100%{transform:scale(var(--ys)) rotate(0);}
+  25%{transform:scale(var(--ys)) rotate(3deg);}
+  75%{transform:scale(var(--ys)) rotate(-3deg);}
+}
+
+#no{
+  background:white;
+  color:var(--hot);
+  position:absolute;
+  left:50%;
+  top:90px;
+  transform:translateX(-50%);
+  animation:noWiggle 1.2s infinite;
+}
+
+@keyframes noWiggle{
+  0%,100%{transform:translateX(-50%) rotate(0);}
+  25%{transform:translateX(-50%) rotate(3deg);}
+  75%{transform:translateX(-50%) rotate(-3deg);}
+}
+
+/* Dudu Bubu */
+#duduBubu{
+  display:none;
+  margin-top:15px;
+  animation:fadeIn .4s ease;
+}
+
+.dudu,.bubu{
+  display:inline-block;
+  font-size:3.2em;
+  animation:cuddle 1s infinite alternate;
+}
+
+.bubu{animation-delay:.4s;}
+
+@keyframes cuddle{
+  from{transform:translateX(0) scale(1);}
+  to{transform:translateX(8px) scale(1.1);}
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.9);}
+  to{opacity:1;transform:scale(1);}
+}
+
+/* Hearts & confetti */
+.heart,.confetti{
+  position:fixed;
+  bottom:-20px;
+  pointer-events:none;
+}
+
+.heart{
+  animation:float 6s linear forwards;
+}
+
+@keyframes float{
+  from{transform:translateY(0) scale(1);opacity:1;}
+  to{transform:translateY(-120vh) scale(1.6);opacity:0;}
+}
+
+.confetti{
+  width:10px;height:10px;
+  animation:confetti 3s linear forwards;
+}
+
+@keyframes confetti{
+  from{transform:translateY(0) rotate(0);opacity:1;}
+  to{transform:translateY(-100vh) rotate(720deg);opacity:0;}
+}
+
+/* Hug screen */
+.hug{
+  font-size:4.5em;
+  animation:hug 1s infinite alternate;
+}
+
+@keyframes hug{
+  from{transform:scale(1);}
+  to{transform:scale(1.1) rotate(2deg);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Hamster 🐹💘</h1>
+<h1>Will you be my Valentine?</h1>
+
+<div class="card">
+<p>
+Teri aankhon mein ek dariya sa beh raha hai,<br>
+Aur main har pal us mein doobna chahta hoon 🌊💖<br><br>
+Agar zindagi ek kahani hoti,<br>
+To har page pe sirf tu hoti ❤️
+</p>
+</div>
+
+<div class="buttons">
+  <button id="yes">YES 💖</button>
+  <button id="no">No 😒</button>
+</div>
+
+<div id="duduBubu">
+  <div class="dudu">🐻</div>
+  <div class="bubu">🐻</div>
+  <p id="noText">🥺</p>
+</div>
+
+</div>
+
+<script>
+const noBtn=document.getElementById("no");
+const yesBtn=document.getElementById("yes");
+const duduBubu=document.getElementById("duduBubu");
+const noText=document.getElementById("noText");
+
+const cuteTexts=[
+ "🥺 r u sure?",
+ "😢 think once?",
+ "🐻 Dudu will cry...",
+ "🐻‍❄️ Bubu sad ho gaya",
+ "💔 thoda sa dil toot gaya",
+ "🥹 ek baar aur socho",
+ "😭 itna bhi bura nahi hoon",
+ "💘 YES hi dabao na"
+];
+
+let noClicks=0;
+let yesScale=1;
+let noScale=1;
+
+function moveNo(){
+  const x=Math.random()*(window.innerWidth-140);
+  const y=Math.random()*(window.innerHeight-140);
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
+
+  noClicks++;
+  duduBubu.style.display="block";
+  noText.innerText=cuteTexts[Math.min(noClicks-1,cuteTexts.length-1)];
+
+  // YES grows
+  yesScale+=0.12;
+  yesBtn.style.setProperty("--ys", yesScale);
+  yesBtn.style.transform=`scale(${yesScale})`;
+
+  if(noClicks>=3){
+    yesBtn.style.boxShadow="0 0 25px rgba(255,77,109,.9)";
+  }
+  if(noClicks>=5){
+    yesBtn.classList.add("wiggle");
+  }
+
+  // NO shrinks
+  noScale=Math.max(0.5,noScale-0.08);
+  noBtn.style.transform=`translateX(-50%) scale(${noScale})`;
+}
+
+noBtn.addEventListener("touchstart",moveNo);
+noBtn.addEventListener("click",moveNo);
+
+yesBtn.onclick=()=>{
+  // confetti
+  for(let i=0;i<40;i++){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=["#ff4d6d","#ffd166","#9bf6ff","#cdb4db"][Math.floor(Math.random()*4)];
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  }
+
+  document.body.innerHTML=`
+    <div style="padding-top:20vh;text-align:center;">
+      <div class="hug">🐻🤍🐻</div>
+      <h1>YAYYYYY 💕🥰</h1>
+      <p style="font-size:1.2em;">
+        You just made me the happiest Sqooshy alive 😭❤️<br><br>
+        I promise to love you, annoy you,<br>
+        and choose you — every single day 💍💖
+      </p>
+    </div>
+  `;
+};
+
+// floating hearts
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML=["❤️","💖","💕","💘"][Math.floor(Math.random()*4)];
+  h.style.left=Math.random()*100+"vw";
+  h.style.fontSize=Math.random()*20+18+"px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},300);
+</script>
+
+</body>
+</html>
